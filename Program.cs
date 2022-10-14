@@ -24,8 +24,7 @@ namespace _4_1_09
                 { 4, 1, 36, 7, 8, 2 },
                 { 7, 8, 9, 0, 2, 3 },
                 { 12, 0, 3, -4, 5, 4 },
-                { 13, 0, 6, 7, 8, 5 },
-                { 14, 8, 9, 0, 2, 3 },
+                { 13, 10, 16, 17, 8, 15 }                
             };
             int n = arr.GetLength(0);
             int m = arr.GetLength(1);
@@ -45,12 +44,60 @@ namespace _4_1_09
                 if (flag)
                     summ.Add(sum);
             }
+            Console.WriteLine("Суммы:");
             foreach (int sum in summ)
                 Console.Write($"{sum}, ");
             Console.WriteLine();
 
+            // Поиск минимумов по строкам.
+            List<int> indexMin = new List<int>();
+            for (int i = 0; i < n; i++)
+            {
+                int min = arr[i, 0];
+                int index = 0;
+                for (int j = 1; j < m; j++)
+                {
+                    if (arr[i, j] < min)
+                    {
+                        min = arr[i, j];
+                        index = j;
+                    }                        
+                }
+                indexMin.Add(index);
+            }
+            Console.WriteLine("Индексы минимумов строк:");
+            foreach (int index in indexMin)
+                Console.Write($"{index}, ");
+            Console.WriteLine();
 
+            // Поиск максимумов по столбцам.
+            List<int> indexMax = new List<int>();
+            for (int j = 0; j < m; j++)                
+            {
+                int max = arr[0, j];
+                int index = 0;
+                for (int i = 1; i < n; i++)
+                {
+                    if (arr[i, j] >= max)
+                    {
+                        max = arr[i, j];
+                        index = i;
+                    }
+                }
+                indexMax.Add(index);
+            }
+            Console.WriteLine("Индексы максимумов столбцов:");
+            foreach (int index in indexMax)
+                Console.Write($"{index}, ");
+            Console.WriteLine();
 
+            // Номера строк и столбцов всех седловых точек матрицы:
+            Console.WriteLine("Индексы седловых точек:");
+            for (int i = 0; i < indexMin.Count; i++)            
+                if (indexMin[i] == indexMax[i])
+                    Console.WriteLine($"i= {indexMin[i]}, j= {indexMax[i]}, " +
+                        $"arr[i,j]= {arr[indexMin[i], indexMax[i]]}");                
+            
             Console.ReadKey();
         }
     }
